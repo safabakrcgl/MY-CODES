@@ -1,0 +1,17 @@
+17 yaşında 3 kere evlenenleri ayırma yöntemi...
+
+
+clf = LocalOutlierFactor(n_neighbors=20)
+clf.fit_predict(df)
+df_scores = clf.negative_outlier_factor_
+np.sort(df_scores)[0:5]
+
+scores = pd.DataFrame(np.sort(df_scores))
+scores.plot(stacked=True, xlim=[0, 50], style='.-')
+plt.show()
+
+th = np.sort(df_scores)[3]
+
+df.describe([0.01, 0.05, 0.75, 0.90, 0.99]).T
+
+df[df_scores < th].drop(axis=0, labels=df[df_scores < th].index)
